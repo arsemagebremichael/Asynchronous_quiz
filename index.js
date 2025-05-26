@@ -1,6 +1,3 @@
-// Create a CustomerOrder class with properties: orderId (string), items (array of objects with name, quantity, price),
-// and status (string). Add a method calculateTotal() that returns the total order amount. Write an async method processPayment() 
-// that simulates payment with a Promise that resolves after 2 seconds. After calling the method, change the status to "paid" and print a success message.
 
 //Create a customer order class with pro[erties of order id, items(array of objects with name, quantity, price) and status
 //Set the status to pending
@@ -38,13 +35,6 @@ console.log(`Your total price is ${total}$.`);
 order1.processPayment()
 
 
-
-
-
-// Create a TeamMember class that takes name, role, and an array of tasks 
-// (each task is an object with title and completed boolean). Write a prototype method completeTask(taskTitle) 
-// that marks a task as completed. Write another method checkProgress() that returns a Promise resolving to "All tasks completed!" 
-// or rejecting with "Pending tasks remaining" based on the state of the tasks array.
 
 // Create a TeamMember class that takes name, role, and an array of tasks where object had title and boolean 
 //Create prototype method task type, that takes in a task title
@@ -129,12 +119,6 @@ candidate1.scheduleInterview("2025-10-20");
 candidate1.sendConfirmation();
 
 
-// Design a Course class with properties: title, instructor, and students (array of student objects with name and progress). 
-// Add a method updateProgress(studentName, value) 
-// that modifies the student’s progress. Create an async method generateCertificate(studentName) that returns a Promise resolving only if the progress is 100, 
-// otherwise reject with "Incomplete progress"
-
-
 //Create class course with properties: name, position, and interviews (array of objects with date, status)
 //create a method updateProgress(studentName, value) 
 //loop through the students 
@@ -193,10 +177,46 @@ console.log(course.updateProgress("Semhal", 100));
 course.generateCertificate("Pheobe");
 
 
-// Create a StockTracker class with a property watchlist (array of objects with symbol, threshold, currentPrice). 
-// Add a method updatePrice(symbol, newPrice) that updates the stock’s current price. Write an async method checkAlerts() 
-// that loops through the watchlist and returns a Promise resolving with a list of stocks where currentPrice >= threshold, 
-// or rejecting with "No alerts triggered".
+// Create class StockTracker with a property watchlist (array of objects with symbol, threshold, currentPrice). 
+// Has a method of updatePrice(symbol, newPrice)
+// Loop through the watchlist
+//Using if condition, look for when symbole = watch.symbole
+// Update its currentPrice to newPrice.
 
+//create aync function checklerts
+//create a variable trigger and filter where current price is greater than treshhold
+//if the length is > 0, resolve it
+//else log no alerts have been triggered
 
+class StockTracker {
+    constructor(watchlist) {
+        this.watchlist = watchlist;
+    }
+    updatePrice(symbol, newPrice){
+        for(let watch of this.watchlist){
+            if (symbol === watch.symbol) {
+                watch.currentPrice = newPrice;
+                return `Price for ${symbol} updated to ${newPrice}.`;
+            }
+        }
+        return `Stock ${symbol} is not in watchlist.`;
+    }
+    async checkAlerts(){
+        return new Promise((resolve, reject) => {
+            let trigger = this.watchlist.filter(
+                item => item.currentPrice >= item.threshold
+            );
+            if (trigger.length > 0) {
+                resolve(trigger);
+            } else {
+                reject("No alerts triggered");
+            }
+        }).then(message => console.log(message)).catch(message=>console.log(message));
+    }
 
+}
+
+let stock = new StockTracker( [{ symbol: "AA", threshold: 20, currentPrice: 50 },
+{ symbol: "AB", threshold: 30, currentPrice: 10 }])
+console.log(stock.updatePrice("AA", 80));
+stock.checkAlerts()
